@@ -1,0 +1,12 @@
+对文件进行简单的管理，例如:创建，复制，移动，查看，压缩，查找。
+在Linux中通常以单根的方式组织文件。  /
+Windows以多根的方式组织文件 C:/ D:/ E:/
+
+/ 目录结构：FSH（Filesystem Hierarchy Standard）
+
+
+  
+  
+  
+  
+
