@@ -1,12 +1,65 @@
 对文件进行简单的管理，例如:创建，复制，移动，查看，压缩，查找。
 在Linux中通常以单根的方式组织文件。  /
-Windows以多根的方式组织文件 C:/ D:/ E:/
+Windows以多根的方式组织文件 C:\ D:\ E:\
 
-/ 目录结构：FSH（Filesystem Hierarchy Standard）
+/ 目录结构：FSH（Filesystem Hierarchy Standard）文件系统层级标准
 
+类似树装结构 根目录下有多个文件。链接文件等。
+[root@MySQL ~]# tree /
+/
+├── bin -> usr/bin
+├── boot
+│   ├── config-3.10.0-1062.12.1.el7.x86_64
+│   ├── config-3.10.0-1062.el7.x86_64
+│   ├── efi
+│   │   └── EFI
+│   │       └── centos
+│   ├── grub
+│   │   └── splash.xpm.gz
+│   ├── grub2
+│   │   ├── device.map
+│   │   ├── fonts
+│   │   │   └── unicode.pf2
+│   │   ├── grub.cfg
+│   │   ├── grubenv
+│   │   ├── i386-pc
 
-  
-  
-  
-  
+ [root@MySQL ~]# ls /
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
 
+在根目录下有很多文件夹和链接文件，一般深蓝色为文件夹，淡蓝色为链接文件。
+bin		普通用户使用的命令	/bin/ls /bin/date
+[root@MySQL ~]# which ls
+alias ls='ls --color=auto'
+/usr/bin/ls
+
+sbin	管理员使用的命令		/sbin/service
+[root@MySQL ~]# which useradd
+/usr/sbin/useradd
+
+dev 	设备文件				/dev/sda /dev/tty1 /dev/null /dev/random（产生随机数）
+block 
+[root@MySQL ~]# ll /dev/sd*
+brw-rw----. 1 root disk 8, 0 3月  16 07:59 /dev/sda
+brw-rw----. 1 root disk 8, 1 3月  16 07:59 /dev/sda1
+brw-rw----. 1 root disk 8, 2 3月  16 07:59 /dev/sda2
+[root@MySQL ~]# ll /dev/random /dev/null /dev/zero
+crw-rw-rw-. 1 root root 1, 3 3月  16 07:59 /dev/null
+crw-rw-rw-. 1 root root 1, 8 3月  16 07:59 /dev/random
+crw-rw-rw-. 1 root root 1, 5 3月  16 07:59 /dev/zero
+[root@MySQL ~]# tty
+/dev/pts/0
+
+root	root用户的家目录		/root/
+home	普通用户的家目录		/home/alice
+proc	虚拟文件系统，反应的是内核，进行信息或实时状态。
+usr		系统文件，相当于C:\Windows
+		/usr/local	软件安装的目录 相当于c:\Program
+		/usr/bin	普通用户使用的应用程序
+		
+		/usr/sbin	管理员使用的应用程序
+		
+		/usr/lib 	库文件Glibc
+		/usr/lib64	库文件Glibc
+		[root@MySQL ~]# ls /usr/
+		bin  etc  games  include  lib  lib64  libexec  local  sbin  share  src  tmp
