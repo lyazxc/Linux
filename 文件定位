@@ -1,0 +1,25 @@
+Linux上通过路径来定位文件
+
+例：
+[root@MySQL var]# tree -L 2 /var/log/
+/var/log/
+├── anaconda
+│   ├── anaconda.log
+│   ├── ifcfg.log
+│   ├── journal.log
+│   ├── ks-script-1Asieg.log
+│   ├── ks-script-HwMWvO.log
+│   ├── ks-script-YlHVAB.log
+│   ├── packaging.log
+│   ├── program.log
+│   ├── storage.log
+│   ├── syslog
+│   └── X.log
+通过路径我们可以准确的找到相应的文件。
+也通过路径来区分文件
+例如：
+/home/user01/file01  和/home/user02/file01  两个不是同一文件。
+/dir01/file01  和 dir01/file01    这两个文件可能是不一样的。两者不同的地方在于一个是绝对路径一个是相对路径，
+绝对路径：从根目录（/）开始
+相对路径：从当前目录开始 pwd看自己的位置。 在文件夹中我们可以看到有两个 （.）（..） .表示当前 ..表示上层目录  
+

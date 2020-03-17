@@ -116,3 +116,16 @@ media		移动设备默认挂载点（Centos6）
 mnt 		手工挂载设备的挂载点
 misc 		automount 进程挂载
 net 		automount 进程挂载
+
+###############################################################################################
+创建目录 mkdir	mkdir test01   mkdir /var/test01
+
+创建文件 touch	touch test01/file1
+
+复制 cp   		cp test01/file1（要复制的源文件） file1（复制到哪里，名字是什么）
+				cp test01/file1{,-bak}	复制文件并重新命名。一般用于备份文件。
+
+移动（剪切） mv
+
+删除 rm
+
