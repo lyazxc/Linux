@@ -1,0 +1,10 @@
+编辑器：
+图形界面 gedit
+命令行界面 vim vi
+
+vim 安装：yum install vim-enhanced -y
+
+vi编辑器分三种模式：编辑模式，命令模式，可视编辑模式
+
+vi 按i 进入插入模式，Esc回到命令模式，按v 进入可视编辑模式 按Esc进入命令模式， 输入：可以输入命令。
+
