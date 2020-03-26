@@ -129,8 +129,14 @@ net 		automount 进程挂载
 
 删除 rm -r 递归  -v显示过程 -f 强制 一般在相对路径下删除文件风险较小，绝对路径 风险较大。   //若使用脚本删除 使用绝对路径。
     rm -rf *  *表示该目录下所有可见文件，隐藏文件不会被删除。
-    rm -rf .*
+    rm -rf .*  .file 是隐藏文件， *不会删除隐藏文件。
 
+查看文件（cat，less，head，tail，tailf，grep 。。。）
+cat 适合查看内容较少的文件
+less 查看文件可以上下翻页
+head 可以查看文件开头多少行的内容
+tail 查看结尾多少行的内容
+tailf  动态查看结尾
+grep 一般用于管道 例如：cat /etc/passwd | grep 'alice'
 
-
-
+Linux 文件在Windows用记事本打开需要用dos2unix 进行格式转换。（windows 与Linux 的控制字符不一样）
