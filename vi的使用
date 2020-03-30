@@ -8,3 +8,53 @@ vi编辑器分三种模式：编辑模式，命令模式，可视编辑模式
 
 vi 按i 进入插入模式，Esc回到命令模式，按v 进入可视编辑模式 按Esc进入命令模式， 输入：可以输入命令。
 
+键位移动
+  hjkl（左，下，上，右）
+  shift + $ 行尾
+  shift + ^ 或者 0 行首
+  n(行号) + shift + g 移动到具体行
+  shift + g 移动至最后一行
+  gg        移动到第一行
+  shift + d 删除（光标以后，整行删除）
+ 
+ 命令模式下修改键
+ /string  查找特定字符 查找可以用n下一个，也可以shift+n 上一个
+  u 撤销
+  x 删除一个字符
+  r 修改一个字符
+  
+  按i，o 进入插入模式 按i 输入在光标前  按o 另起一行 A 在行尾插入
+  
+  CTRL + v 进入可是块   方向键选择区 x删除  r替换  shift + i 插入
+  
+：n   进入对应行
+：w   保存
+：q   退出
+：wq
+：w！ 强制保存
+：x   保存并推出
+
+查找替换
+：范围 s/old/new/选项
+：1,5s/root/alice/g
+:5,$s/root/alice/g
+:%s/root/alice/g
+:%s@/dev/sda@/var/log@
+:,8s/root/alice/g
+:1,6s/^#//    将开头的#号替换为空
+:1.6s/.*/#&/  将开头添加#号
+
+读入文件，写入文件（另存为）
+：w                 保存到当前文件
+：w /var/test.txt   另存为
+：1,3 w /var/test.txt  将1，3行另存为
+:r /etc/hosts     将 /etc/hosts 文件读入
+:5 r /etc/hosts   将/etc/hosts 文件读入到 5行后
+
+环境设置
+:se nu  设置行号
+:se ic  忽略大小写
+:se ai  自动缩进
+:se list 显示控制字符
+:se noai  取消缩进
+:se nonu  取消行号
