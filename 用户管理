@@ -1,0 +1,30 @@
+# User and Group
+系统上每个进程都是作为特定用户运行的。
+每个文件是由一个特定的用户拥有
+访问文件和目录受到用户限制
+与正在运行的进程相关联的用户确定该进程可访问的文件目录
+
+# 查看当前登录的用户信息
+id
+
+用户的信息在以下这三个文件中
+/etc/passwd
+/etc/shadow
+/etc/group
+
+
+用户管理
+useradd  创建用户
+groupadd  创建组
+passwd    修改密码
+userdel  删除用户
+chage   改变密码策略
+
+useradd 创建用户的同时会创建 用户的家目录，邮箱
+
+用户 主组有且只有一个，useradd 时可以-g 指定  未指定的情况下会创建一个与用户同名的主组。附加组，可以有多个 -G指定，也可以用将用户加入组也可以没有
+
+在创建用户时，如非必要 不要给用户shell -s /sbin/nologin
+
+不要直接使用root 建议 使用sudo
+usermod user -G wheel
