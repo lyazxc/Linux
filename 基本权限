@@ -1,0 +1,64 @@
+基本权限 UGO
+文件权限设备：可以赋予某个用户或组 能够以何种方式访问某个文件。
+
+user  group other
+rwx   rwx   rwx
+
+文件权限管理根据 U G O来设置基本权限（r read，w write, x execute） 
+例如：
+-rw-r--r--. 1 root root 292876 Mar 31 08:35 lastlog
+- 表示普通文件
+root root  属主 属组  
+292876     文件大小
+lastlog    文件名
+
+权限对象：
+属主：U
+属组：G
+其他人：O
+
+基本权限类型：
+读 r ：4
+写 w ：2
+执行 x : 1
+
+设置权限
+1.更改文件的属主，属组
+chown
+[root@MySQL test]# ll
+total 0
+-rw-r--r-- 1 root root 0 Mar 31 09:04 file1
+[root@MySQL test]# chown alice.it file1
+[root@MySQL test]# ll
+total 0
+-rw-r--r-- 1 alice it 0 Mar 31 09:04 file1
+chown 也可以之更改属组，或者属主
+
+chgrp
+chgrp -R it dir  递归操作文件和目录
+
+更改权限
+chmod
+
+chmod   对象   赋值  权限类型
+
+对象：u g o a
+赋值：+ - =
+权限类型：r w x  
+例：
+[root@MySQL test]# chmod a=rw file1
+[root@MySQL test]# ll
+total 4
+-rw-rw-rw- 1 alice it 17 Mar 31 09:31 file1
+[root@MySQL test]# chmod u=rw,g=rx,o=r file1
+[root@MySQL test]# ll
+total 4
+-rw-r-xr-- 1 alice it 17 Mar 31 09:31 file1
+
+chmod 使用数字赋予权限
+例:
+[root@MySQL test]# chmod 741 file2   //三个数字分别代表着 u g o  7表示 r（4）w（2）x(1) 4表示r（4） 1表示x（1）
+[root@MySQL test]# ll file2
+-rwxr----x 1 root root 0 Mar 31 09:51 file2
+
+
