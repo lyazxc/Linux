@@ -61,4 +61,30 @@ chmod 使用数字赋予权限
 [root@MySQL test]# ll file2
 -rwxr----x 1 root root 0 Mar 31 09:51 file2
 
+文件访问控制（FACL  file access control list）
+[root@MySQL ~]# getfacl /home/test.txt
+getfacl: Removing leading '/' from absolute path names
+# file: home/test.txt
+# owner: root
+# group: root
+user::rw-
+group::r--
+other::r--
+
+[root@MySQL ~]# ll /home/test.txt
+-rw-r--r-- 1 root root 0 Apr  5 15:16 /home/test.txt
+
+[root@MySQL ~]# getfacl /home/test.txt
+getfacl: Removing leading '/' from absolute path names
+# file: home/test.txt
+# owner: root
+# group: root
+user::rw-
+user:alice:rw-
+group::r--
+mask::rw-
+other::r--
+
+[root@MySQL ~]# ll /home/test.txt
+-rw-rw-r--+ 1 root root 0 Apr  5 15:16 /home/test.txt
 
