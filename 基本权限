@@ -89,3 +89,16 @@ other::r--
 [root@MySQL ~]# ll /home/test.txt
 -rw-rw-r--+ 1 root root 0 Apr  5 15:16 /home/test.txt
 
+特殊权限（3种）：
+suid，sgid，sticky：
+sgid 新建文件继承目录属组。针对目录，继承属组。
+
+sticky 用户只能删除自己的文件。针对目录。
+
+suid 以属主的身份区运行该进程。 针对文件。
+
+谁可以删除文件：
+1.root
+2.文件所有者
+3.目录的所有者
+
