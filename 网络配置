@@ -1,0 +1,151 @@
+#网络地址
+网络地址分为 网络位和主机位
+例：
+192.168.1.1/24
+子网掩码为24 所以前24位为网络位，后8位为主机位
+2的8次方为 256 所以就有256个主机位
+主机位全为1位 就是这个子网的广播地址也就是 192.168.1.255 就是这个子网的广播地址
+主机位全为0位 全0为网络号，标识192.168.1.0网络的开始
+所以主机位256 -2 就只有254个主机位可以使用了
+11000000.10101000.00000001.00000001
+
+当网络需要与其他网段通信时需要配置网关
+例：
+192.168.1.0/24 需要与 192.168.2.0/24 通信需要在网段内设置网关
+网关也需要占用一个主机位
+
+在Centos7中，可以通过修改网卡配置和使用命令修改
+网卡配置一般为 /etc/sysconfig/network-script/ifcfg-eth0
+网卡配置命令为 nmcli (nmcli 为networkmanager)
+例：
+需要为Centos7 配置IP修改配置文件的方法如下：
+vi /etc/sysconfig/network-script/ifcfg-eth0
+DEVICE="eth1"   //网卡名称
+HWADDR=         //MAC地址也称为物理地址
+TYPE=Ethernet   //网络类型
+GATEWAY=        //网关地址
+IPADDR=         //网络地址
+PREFIX=24       //子网掩码  也可以使用NETMASK 使用NETMASK 需要以10进制表示 255.255.255.0
+ONBOOT=yes      //开机自动启用网络连接
+BOOTPROTO=none  //设置为none禁止DHCP，设置为static启用静态IP地址，设置为dhcp开启DHCP服务
+DNS1=           //DNS服务器地址  DNS域名解析
+UUID=           //唯一标识
+
+nmcli 创建网络时
+nmcli con add type Ethernet ifname ens223 con-name ens233 ipv4.address 192.168.1.0/24 ipv4.gateway 192.168.1.254 ipv4.dns 114.114.114.114 ipv4.method manaual connetction.autoconnect yes
+####
+nmcli con up/down/del/reload/show/modify ens223
+up     激活网络
+down   断开网络
+del    删除网卡
+show   显示网卡相信信息
+dis    停用并断开
+reload 重载配置
+modify 修改网卡配置
+
+
+查看当前服务器运行的端口
+netstate 
+常用选项：
+-n 显示接口和端口的编号不显示名称
+-t 显示TCP
+-u 显示UDP
+-l 仅显示侦听中
+-a 显示所有
+-p 显示端口使用的进程
+
+
+
+
+网卡Bond
+bond 分为 7 级
+级别       名称                     特点                                          交换机要求             
+0          round-robin        按设备依次传输，提供负载和容错的能力                     需要配置trunk
+1          active-backup      只有一个设备处理数据，当该设备出现问题由备份代替工作        不需要配置trunk
+2          load-balancing     根据MAC地址异或运算来选择设备，提供负载和容错              需要配置trunk
+3          fault-tolerance    通过全部设备来传输所有数据，提供容错能力                   需要配置Trunk
+4          lacp               通过创建聚合来共享相同的传输速度，需要交换机支持802.3ad模式，提供容错        交换机需要支持802.3d 需要配置Trunk
+5          transmit load balancing    由负载最轻的网口发送，由当前使用的网口接收，提供负载和容错能力         交换机不需要配置trunk
+6          adaptive load balancing    由负载最轻的网口发送和接收，提供负载和容错                          交换机不需要配置trunk
+
+
+使用nmcli 配置bond
+nmcli con add type  bond ifname bond0 con-name bond0 mode active-backup miimon 1000
+配置IP
+nmcli con modify bond0 ipv4.address 192.168.1.1/24 ipv4.gateway 192.168.1.254 ipv4.dns 192.168.1.254 ipv4.method manual
+为bond 添加网卡
+nmcli con add type ethernet slave-type bond ifname ens223 con-name ens223 master bond0
+nmcli con add type ethernet slave-type bond ifname ens224 con-name ens224 master bond0
+激活bond
+nmcli con up bond0
+
+创建配置文件：
+vi /etc/sysconfig/network-scripts/ifcfg-bond0
+DEVICE=bond0
+TYPE=Ethernet
+ONBOOT=yes
+IPADDR=192.168.1.1
+NETMASK=255.255.255.0
+BONDING_OPTS="miimon=1000 mode=1"
+
+vi /etc/sysconfig/network-scripts/ifcfg-ens223
+DEVICE=ens223
+TYPE=Ethernet
+ONBOOT=yes
+SLAVE=yes
+MASTER=bond0
+
+vi /etc/sysconfig/network-scripts/ifcfg-ens224
+DEVICE=ens224
+TYPE=Ethernet
+ONBOOT=yes
+SLAVE=yes
+MASTER=bond0
+
+service network restart
+
+
+
+桥接网卡配置
+什么是桥接：
+Linux内部实现的bridge可以把一台机器上的多张网卡桥接起来，从而把自己作为一台交换机。
+同时，Linux bridge还支持虚拟端口，即桥接的不一定都是物理网卡接口，还可以是虚拟接口。
+目前主要表现为Tap接口，Tap接口在逻辑上和物理网卡实现相同的功能，都可以接收和发送数据包。
+所以这一应用也成就了虚拟化环境下的bridge实现。
+
+nmcli创建桥接
+nmcli con add type bridge ifname br0  con-name br0
+nmcli con modify br0 ipv4.address 192.168.1.1/24 ipv4.gateway 192.168.1.254 ipv4.dns 192.168.1.254 ipv4.method manual
+nmcli con add type ethernet slave-type bridge ifname ens223 con-name ens223 master br0
+nmcli con up br0
+
+
+配置文件：
+vi /etc/sysconfig/network-scripts/ifcfg-ens223
+DEVICE=ens223
+BOOTPROTO=none
+ONBOOT=yes
+BRIDGE=br0
+
+
+
+vi /etc/sysconfig/network-scripts/ifcfg-br0
+DEVICE=br0
+TYPE=bridge
+BOOTPROTO=none
+ONBOOT=yes
+IPADDR=192.168.1.1
+NETMASK=255.255.255.0
+
+
+
+
+
+
+
+
+
+
+
+
+
