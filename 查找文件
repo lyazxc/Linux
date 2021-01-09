@@ -1,0 +1,89 @@
+find 查找文件
+可选查找条件：
+1. 根据文件名和inode查找
+find -name “文件名”  支持使用 glob(7) * ? [] [^]
+find -iname "文件名"  忽略大小写
+find -inum  “inode号”  按inode号查找
+find -links “链接数”    按链接数查找
+
+find /etc  -name ‘*pass*’
+
+2. 根据属主，属组查找
+find -user  “用户名”  按用户名查找文件
+find -group “组名”    按属组查找
+find -uid  “UID”     按UID查找文件
+find -gid   “GROUPID”  按GROUPIP查找文件
+find -nouser  “用户名”  查找除此用户以外的文件
+find -nogroup  “组名”   查找除此属组以外的文件
+
+3. 根据文件类型查找
+-type
+f   为普通文件
+d   为目录
+b   块设备
+c   字符设备
+l   链接文件
+p   管道文件
+s   套接字文件
+
+
+4. 根据逻辑组合条件查找
+-a          与
+-o          或
+-not，！     非
+
+5. 根据文件大小查找
+-size
++  -
+K M G
+5M        表示4-5M
+-5M       表示0-5M
++5M       表示5M-∞
+
+
+
+
+
+6. 根据时间戳查找
+以天为单位
+-atime  
+-mtime
+-ctime
+
+以分为单位
+-amin
+-mmin
+-cmin
+
+
+7. 根据权限查找
+-perm / - MODE 
+0 表示不关注
+mode  精确匹配权限
+/mode     任何一类（u,g,o）对象的权限中只要能一位匹配即可属于或关系
+-mode     每一类对象都要必须同时拥有指定权限 属于与权限
+
+find -perm 644  严格匹配644的文件
+find -perm /222 ugo 任何一类有写权限即可
+find -perm -222 严格匹配写权限 即ugo必须要有写权限
+find -perm -002 严格匹配写权限 即o的权限必须为写权限
+
+
+可选目录深度/层级
+- maxdepth  最大搜索目录深度，指定目录为第一级
+- mindepth  最小搜索目录深度
+
+
+在查找的文件上执行操作
+-print   打印至显示屏
+-ls  类似ls-l 命令
+-delete   删除查找到的文件
+-fls file   查找到的所有长格式信息保存到指定文件中
+-ok  command {}\;  执行command 交互式请求用户确认
+-exec command {}\; 执行command 
+{}：     用于引用查找到的文件名称自身
+|        管道
+
+
+
+
