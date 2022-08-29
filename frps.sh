@@ -57,7 +57,7 @@ fi
 netstat -anp | grep $port
 if [ $? == 0 ] ;then
    echo "The port is occupied."
-   exot
+   exit
 fi
 
 
